@@ -31,7 +31,7 @@ const server = http.createServer((req,res) => {
     }
     if(req.url.includes('/eliminar')){
         
-        return fs.unlink(`archivos/${archivo}.txt`,(err,data) =>{
+        return fs.unlink(`archivos/${archivo}.txt`,(err) =>{
             if(err){
                 res.write("no se pudo eliminar el archivo")
             }
@@ -39,7 +39,12 @@ const server = http.createServer((req,res) => {
         })
     }
 
-
+    if(req.url.includes("/")){
+       return fs.readFile('index.html',(err,data)=>{
+           if(err) return res.end("no se pudo leer index", null)
+           return res.end(data, null)
+       })
+    }
 
     res.end("fin",null);
 
