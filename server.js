@@ -1,13 +1,15 @@
-const http = require("http")
-const url = require("url")
-const fs = require("fs")
+import http from "http"
+import url from "url"
+import fs from "fs"
+import chalk from "chalk"
+import moment from 'moment'
 
 const server = http.createServer((req,res) => {
     const params = url.parse(req.url,true).query;
     const {archivo, contenido, nombre, nuevoNombre} = params;
 
     if(req.url.includes('/crear')){
-        return fs.writeFile(`archivos/${archivo}.txt`,` ${new Date()}  ${contenido}`,"utf-8", ()=>{
+        return fs.writeFile(`archivos/${archivo}.txt`,` ${moment().format("L")}  ${contenido}`,"utf-8", ()=>{
             return res.end('archivo creado con exito', null)
         })
     }
@@ -51,4 +53,5 @@ const server = http.createServer((req,res) => {
 })
 
 const puerto = 4040
-server.listen(puerto,()=> console.log('servidor activo'))
+server.listen(puerto,()=> console.log(chalk.blue('servidor activo')))
+
